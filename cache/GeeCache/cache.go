@@ -1,7 +1,7 @@
 package GeeCache
 
 import (
-	"golearning/GeeCache/lru"
+	"golearning/cache/GeeCache/lru"
 	"sync"
 )
 

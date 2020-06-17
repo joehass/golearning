@@ -2,7 +2,7 @@ package GeeCache
 
 import (
 	"fmt"
-	"golearning/GeeCache/consistenthash"
+	"golearning/cache/GeeCache/consistenthash"
 	"io/ioutil"
 	"log"
 	"net/http"

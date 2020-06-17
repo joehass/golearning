@@ -2,7 +2,7 @@ package GeeCache
 
 import (
 	"fmt"
-	"golearning/GeeCache/singleflight"
+	"golearning/cache/GeeCache/singleflight"
 	"log"
 	"sync"
 )
