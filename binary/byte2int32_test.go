@@ -15,8 +15,20 @@ import (
 */
 
 func TestB(t *testing.T) {
-	var a []byte = []byte{0, 1, 2, 3}
+	var a = []byte{0, 1, 2, 3}
 	fmt.Println(a)
 	fmt.Println(binary.BigEndian.Uint32(a))
 	fmt.Println(binary.LittleEndian.Uint32(a))
+}
+
+func TestUint64(t *testing.T) {
+	var a = []byte{0, 1, 2, 3}
+
+	fmt.Println(uint64(len(a)))
+	b := binary.PutUvarint(a, uint64(len(a)))
+	fmt.Println(b) //写入的字节数
+
+	c, d := binary.Uvarint(a)
+	fmt.Println(c) //字节长度，等同于len(a)
+	fmt.Println(d) //读取的字节数
 }

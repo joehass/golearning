@@ -2,14 +2,17 @@ package binary
 
 import (
 	"encoding/binary"
+	"fmt"
 	"testing"
 )
 
 func TestLittle(t *testing.T) {
 	blob := []byte("byte")
 
-	blob1 := []byte("byte1")
+	binary.LittleEndian.PutUint32(blob, uint32(len(blob)))
 
-	binary.LittleEndian.PutUint64(blob, blob1)
+	fmt.Println(string(blob))
+
+	binary.LittleEndian.Uint32(blob)
 
 }
