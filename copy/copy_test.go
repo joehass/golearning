@@ -65,12 +65,27 @@ func TestC2(t *testing.T) {
 
 	copyData := make([]int, 20)
 
-	copy(copyData, ref[1:3])
+	n := copy(copyData, ref[1:3])
 
 	fmt.Println(copyData)
+	fmt.Println(n)
+	fmt.Println(len(copyData))
+	fmt.Println(len(ref[1:3]))
 
-	copy(copyData[1:], ref[4:7])
+	n2 := copy(copyData[1:], ref[4:7])
 
 	fmt.Println(copyData)
+	fmt.Println(n2)
+	fmt.Println(len(copyData[1:]))
+	fmt.Println(len(ref[4:7]))
 
+}
+
+func TestC3(t *testing.T) {
+	srcData := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	desData := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+
+	copy(srcData[1:3], desData[2:6])
+
+	fmt.Println(srcData)
 }
