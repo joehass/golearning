@@ -31,6 +31,5 @@ func getPrice(wordCount int) int {
 }
 
 func TestT2(t *testing.T) {
-	r, _ := strconv.ParseFloat(fmt.Sprintf("%.1f", float64(500)/float64(1000)*float64(5)), 64)
-	fmt.Println(math.Ceil(r))
+	fmt.Println(math.Ceil(3.1))
 }
