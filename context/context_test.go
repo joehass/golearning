@@ -156,3 +156,80 @@ func TestC4(t *testing.T) {
 		}
 	}
 }
+
+func TestC5(t *testing.T) {
+	ctx1, cancel1 := context.WithCancel(context.TODO())
+	ctx2, _ := context.WithCancel(ctx1)
+	go func(ctx context.Context) {
+		for {
+			select {
+			//使用select调用<-ctx.Done()判断是否要结束
+			case <-ctx.Done():
+				fmt.Println("ctx1 exit")
+				return
+			default:
+				fmt.Println("goCtx1 running.")
+				time.Sleep(2 * time.Second)
+			}
+		}
+	}(ctx1)
+	go func(ctxTwo context.Context) {
+		for {
+			select {
+			//使用select调用<-ctx.Done()判断是否要结束
+			case <-ctxTwo.Done():
+				fmt.Println("ctx2 exit")
+				return
+			default:
+				fmt.Println("goCtx2 running.")
+				time.Sleep(2 * time.Second)
+			}
+		}
+	}(ctx2)
+	time.Sleep(4 * time.Second)
+	fmt.Println("main fun exit")
+	//取消context
+	cancel1()
+	//cancelTwo()
+	time.Sleep(15 * time.Second)
+	fmt.Println("exit")
+}
+
+func TestD1(t *testing.T) {
+	ctx1, cancel1 := context.WithDeadline(context.TODO(), time.Now().Add(5*time.Second))
+	ctx2, _ := context.WithDeadline(ctx1, time.Now().Add(5*time.Second))
+
+	go func(ctx context.Context) {
+		for {
+			select {
+			case <-ctx.Done():
+				fmt.Println("ctx1 exit")
+				return
+			default:
+				fmt.Println("ctx1 running ")
+				time.Sleep(1 * time.Second)
+			}
+		}
+	}(ctx1)
+
+	go func(ctx context.Context) {
+		for {
+			select {
+			case <-ctx.Done():
+				fmt.Println("ctx3 exit")
+				return
+			default:
+				fmt.Println("ctx2 running ")
+				time.Sleep(1 * time.Second)
+			}
+		}
+	}(ctx2)
+
+	time.Sleep(4 * time.Second)
+	fmt.Println("main fun exit")
+	//取消context
+	cancel1()
+	//cancelTwo()
+	time.Sleep(5 * time.Second)
+	fmt.Println("exit")
+}
