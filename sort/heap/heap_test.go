@@ -1,49 +1,74 @@
 package heap
 
 import (
+	"container/heap"
 	"fmt"
+	"sort"
 	"testing"
 )
 
-//堆排序
+/**
+go 中container/heap的使用
+*/
 
-func sort(arr []int) {
-	//构建大顶堆，从最后一个非叶节点开始
-	for i := len(arr)/2 - 1; i >= 0; i-- {
-		//从第一个非叶子节点从上至下，从右至左调整结构
-		adjustHeap(arr, i, len(arr))
-	}
-	//调整堆结构，交换堆顶元素和末尾元素
-	for j := len(arr) - 1; j > 0; j-- {
-		swap(arr, 0, j)       //将堆顶元素和末尾元素进行交换
-		adjustHeap(arr, 0, j) //重新对堆进行调整
-	}
+type IntHeap []int
+
+func (h IntHeap) Len() int {
+	return len(h)
 }
 
-//调整大顶堆，仅是调整过程，建立在大顶堆已构建的基础上
-func adjustHeap(arr []int, i, length int) {
-	temp := arr[i]
-	for k := i*2 + 1; k < length; k = k*2 + 1 { //从i节点的左子节点开始，也就是2i+1处开始
-		if k+1 < length && arr[k] < arr[k+1] { //如果左子节点小于右子节点，k指向右子节点
-			k++
-		}
-		if arr[k] > temp { //如果子节点大于父节点，将子节点赋值给父节点，不用进行交换
-			arr[i] = arr[k]
-			i = k
-		} else {
-			break
-		}
+func (h IntHeap) Less(i, j int) bool {
+	return h[i] < h[j]
+}
+
+func (h IntHeap) Swap(i, j int) {
+	h[i], h[j] = h[j], h[i]
+}
+
+func (h *IntHeap) Push(x interface{}) {
+	*h = append(*h, x.(int))
+}
+
+func (h *IntHeap) Pop() interface{} {
+	old := *h
+	n := len(old)
+	x := old[n-1]
+	*h = old[0 : n-1]
+	return x
+}
+
+/**
+自定义的类，实现相关接口后，交由heap.Init()去构建堆，
+从堆中pop()后，数据就被从heap中移除类，
+升降序由less()来决定
+自定义类也可以直接用sort来排序，因为实现了相关接口
+*/
+func TestH1(t *testing.T) {
+	h := &IntHeap{100, 16, 4, 8, 70, 2, 36, 22, 5, 12}
+
+	fmt.Println("\nHeap:")
+	heap.Init(h)
+
+	fmt.Printf("最小值：%d\n", (*h)[0])
+
+	//依次输出最小值
+	fmt.Println("\nHeap sort:")
+	for h.Len() > 0 {
+		fmt.Printf("%d ", heap.Pop(h))
 	}
-	arr[i] = temp //将temp值放到最终位置
-}
 
-//交换元素
-func swap(arr []int, a, b int) {
-	arr[a], arr[b] = arr[b], arr[a]
-}
+	//增加一个新值
+	fmt.Println("\nPush(h, 3),然后输出堆看看:")
+	heap.Push(h, 3)
+	for h.Len() > 0 {
+		fmt.Printf("%d ", heap.Pop(h))
+	}
 
-func TestHeap(t *testing.T) {
-	arr := []int{9, 6, 7, 5, 2, 4, 3, 1, 8}
-	sort(arr)
-	fmt.Println(arr)
+	fmt.Println("\n 使用sort.Sort排序：")
+
+	h2 := IntHeap{100, 16, 4, 8, 70, 2, 36, 22, 5, 12}
+	sort.Sort(h2)
+	for _, v := range h2 {
+		fmt.Printf("%d ", v)
+	}
 }
