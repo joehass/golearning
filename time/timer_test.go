@@ -40,3 +40,9 @@ func TestT2(t *testing.T) {
 
 	}
 }
+
+func TestC3(t *testing.T) {
+	i := 1<<63 - 1 // math.MaxInt64
+	fmt.Println(i)
+	println("1")
+}
