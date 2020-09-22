@@ -1,6 +1,7 @@
 package context
 
 import (
+	"context"
 	"fmt"
 	"testing"
 	"time"
@@ -81,4 +82,16 @@ func TestMyD1(t *testing.T) {
 	//cancelTwo()
 	time.Sleep(5 * time.Second)
 	fmt.Println("exit")
+}
+
+func TestValue(t *testing.T) {
+	ctx := context.TODO()
+	vCtx := context.WithValue(ctx, "key", "v")
+	vCtx2 := context.WithValue(vCtx, "key1", "v2")
+	vCtx3 := context.WithValue(vCtx, "key", "v1")
+	vCtx4 := context.WithValue(vCtx3, "key3", "v3")
+	fmt.Println(vCtx3.Value("key"))
+	fmt.Println(vCtx2.Value("key1"))
+	fmt.Println(vCtx.Value("key"))
+	fmt.Println(vCtx4.Value("key"))
 }
