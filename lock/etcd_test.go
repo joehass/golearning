@@ -62,12 +62,12 @@ var n = 0
 // 使用worker模拟锁的抢占
 func worker(key string) error {
 
-	sess, err := concurrency.NewSession(cli)
+	s, err := concurrency.NewSession(cli)
 	if err != nil {
 		return err
 	}
 
-	m := concurrency.NewMutex(sess, "/"+key)
+	m := concurrency.NewMutex(s, "/"+key)
 
 	err = m.Lock(context.TODO())
 	if err != nil {
