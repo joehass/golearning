@@ -5,16 +5,18 @@ import (
 	"testing"
 )
 
-func insertSort(nums []int) {
-	for i := 1; i < len(nums); i++ {
-		if nums[i] < nums[i-1] {
-			j := i - 1
-			temp := nums[i]
-			for j >= 0 && nums[j] > temp {
-				nums[j+1] = nums[j]
-				j--
+//直接插入排序
+func insertSort(arr []int) {
+	len := len(arr)
+	for i := 0; i < len; i++ {
+		selected := arr[i]
+		for j := i - 1; j >= 0; j-- {
+			if arr[j] > selected {
+				arr[j], arr[j+1] = arr[j+1], arr[j]
+			} else {
+				arr[j+1] = selected
+				break
 			}
-			nums[j+1] = temp
 		}
 	}
 }
