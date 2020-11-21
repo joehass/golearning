@@ -69,7 +69,10 @@ func TestQUeryDom(t *testing.T) {
 	dom.Find("tbody").Each(func(i int, selection *goquery.Selection) {
 		selection.Find("tr:first-child").Each(func(i int, selection *goquery.Selection) {
 			selection.Find("td[class]").Each(func(i int, selection *goquery.Selection) {
-				fmt.Println(selection.Text())
+				str := selection.Text()
+				strArr := strings.Split(str, "\n")[1:6]
+				fmt.Println(len(strArr))
+				fmt.Println(strArr)
 			})
 		})
 	})
